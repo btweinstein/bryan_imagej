@@ -47,6 +47,9 @@ class Range_Expansions():
 
 		# Reverse command_to_shortcut for utility
 		self.shortcut_to_command = dict((v,k) for k,v in self.command_to_shortcut.iteritems())
+
+		# Initialize the gui
+		self.initialize_gui()
 		
 	def initialize_gui(self):
 		# Create a GUI with available options
