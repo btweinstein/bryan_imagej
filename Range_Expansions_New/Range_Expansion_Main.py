@@ -83,17 +83,16 @@ class Range_Expansions():
 			image_plus = IJ.getImage()
 			command_folder = self.command_to_folder[command]
 			# Convert imagepath to ometif
-			image_path_without_extension = image_path.split('.', 1)[0]
-			ome_path = image_path_without_extension + '.ome.tif'
-			IJ.run(command, 'save_path=[' + command_folder + ome_path+']')
+			IJ.run(command, 'save_path=' + command_folder + image_path)
 		if command == 'Doctor Edges':
 				IJ.open(self.edge_folder + image_path)
 				image_plus = IJ.getImage()
 				command_folder = self.command_to_folder[command]
 				image_path_without_extension = image_path.split('.', 1)[0]
 				ome_path = image_path_without_extension + '.ome.tif'
-				options = 'save_path=[' + command_folder + ome_path +']'
-				options += ' overlay_path=[' + self.tif_folder + image_path +']'
+				options = 'save_path=' + command_folder + ome_path
+				options += ' overlay_path=' + self.tif_folder + image_path
+				print self.tif_folder + image_path
 				IJ.run(command, options)
 
 		closeAllImages()

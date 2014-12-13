@@ -23,6 +23,7 @@ if options is not None:
 		key_then_arg = k.split('=')
 		if key_then_arg[0] == 'overlay_path':
 			overlay_path = key_then_arg[1]
+			print overlay_path
 
 # Open the overlay image; there will be an option to pass in this value
 if overlay_path is not None:
