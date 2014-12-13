@@ -1,0 +1,8 @@
+// Still need to rescale the system so the image is in mm and not um
+run("Bio-Formats", "open=C:\\Users\\chompy_local\\Desktop\\test\\calibrated_testing_wells\\analysis\\Algorithm_4\\Original.zvi autoscale color_mode=Default view=Hyperstack stack_order=XYCZT");
+run("Enhance Contrast...", "saturated=0.4 normalize equalize");
+run("Find Edges");
+run("Auto Threshold", "method=Default white");
+// Set background to white or else things explode, lol
+setForegroundColor(254, 254, 254);
+run("Remove Small", "enter=.5");
