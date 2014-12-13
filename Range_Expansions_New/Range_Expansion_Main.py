@@ -49,15 +49,10 @@ class Range_Expansions():
 		self.shortcut_to_command = dict((v,k) for k,v in self.command_to_shortcut.iteritems())
 
 		# Initialize the gui
-		self.initialize_gui()
-		
-	def initialize_gui(self):
-		# Create a GUI with available options
 		self.done_list = None # Responsible for keeping track of changes
 		self.gui = self.create_gui()
 		self.gui.showDialog()
-		self.respond_to_changes()
-
+		self.respond_to_changes()		
 
 	def respond_to_changes(self):
 		# Figure out what different things are ticked now
@@ -87,13 +82,18 @@ class Range_Expansions():
 			IJ.open(self.tif_folder + image_path)
 			image_plus = IJ.getImage()
 			command_folder = self.command_to_folder[command]
-			IJ.run(command, 'save_path=' + command_folder + image_path)
+			# Convert imagepath to ometif
+			image_path_without_extension = image_path.split('.', 1)[0]
+			ome_path = image_path_without_extension + '.ome.tif'
+			IJ.run(command, 'save_path=[' + command_folder + ome_path+']')
 		if command == 'Doctor Edges':
 				IJ.open(self.edge_folder + image_path)
 				image_plus = IJ.getImage()
 				command_folder = self.command_to_folder[command]
-				options = 'save_path=' + command_folder + image_path
-				options += ' overlay_path=' + self.tif_folder + image_path
+				image_path_without_extension = image_path.split('.', 1)[0]
+				ome_path = image_path_without_extension + '.ome.tif'
+				options = 'save_path=[' + command_folder + ome_path +']'
+				options += ' overlay_path=[' + self.tif_folder + image_path +']'
 				IJ.run(command, options)
 
 		closeAllImages()
