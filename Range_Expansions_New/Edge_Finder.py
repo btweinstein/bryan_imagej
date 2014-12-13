@@ -12,8 +12,8 @@ stack = image.getStack()
 stack.deleteLastSlice()
 
 # Cycle through each image
-IJ.run(image, "Bandpass Filter...", "filter_large=20 filter_small=0 suppress=None tolerance=5 process");
-IJ.run(image, "Median...", "radius=7 stack");
+IJ.run(image, "Bandpass Filter...", "filter_large=100 filter_small=10 suppress=None tolerance=5 process");
+#IJ.run(image, "Median...", "radius=7 stack");
 IJ.run(image, "Find Edges", "stack");
 # Convert to 8-bit, regretably. Not sure if I have to do this.
 IJ.run(image, "8-bit", "")
