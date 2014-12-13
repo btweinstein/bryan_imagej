@@ -12,14 +12,9 @@ stack = image.getStack()
 stack.deleteLastSlice()
 
 # Cycle through each image
-for i in range(1, stack.getSize() + 1):
-	ip = stack.getProcessor(i)
-	#ip.blurGaussian(2)
-	ip.findEdges()
-
-image.updateAndDraw()
-# Now cycle through and apply a threshold to each
-
+IJ.run(image, "Bandpass Filter...", "filter_large=20 filter_small=0 suppress=None tolerance=5 process");
+IJ.run(image, "Median...", "radius=7 stack");
+IJ.run(image, "Find Edges", "stack");
 # Convert to 8-bit, regretably. Not sure if I have to do this.
 IJ.run(image, "8-bit", "")
 image.updateAndDraw()
