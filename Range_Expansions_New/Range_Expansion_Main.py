@@ -43,7 +43,7 @@ class Range_Expansions():
 		self.command_to_folder['Doctor Edges'] = self.edges_doctored_folder
 		self.command_to_shortcut['Doctor Edges'] = 'de'
 
-		self.mask_folder = self.base_folder + 'masks'
+		self.mask_folder = self.base_folder + 'masks/'
 		self.command_to_folder['Mask Finder'] = self.mask_folder
 		self.command_to_shortcut['Mask Finder'] = 'mf'
 

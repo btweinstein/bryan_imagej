@@ -19,6 +19,7 @@ image.hide()
 # Cycle through each image, apply CLAHE
 for current_image in channel_images:
 	current_image.show()
+	IJ.run(current_image, "Enhance Local Contrast (CLAHE)", "blocksize=50 histogram=1024 maximum=10 mask=*None*");
 	IJ.run(current_image, 'Threshold...', 'Default Dark')
 	dial = WaitForUserDialog('Threshold please')
 	dial.show()
