@@ -1,15 +1,13 @@
-from ij.io import DirectoryChooser
 import ij
+from ij.io import DirectoryChooser
 from ij import IJ
 from ij.gui import WaitForUserDialog
 import glob
 import os
 from ij.gui import DialogListener
-from java.awt.event import ItemEvent
-import java.awt
 import ij.plugin.frame.ThresholdAdjuster
-from threading import Thread
-from javax.swing import SwingWorker, SwingUtilities
+from loci.plugins import BF
+from loci.plugins.in import ImporterOptions
 
 def closeAllImages():
 	count = ij.WindowManager.getImageCount()
@@ -45,6 +43,10 @@ class Range_Expansions():
 		self.command_to_folder['Doctor Edges'] = self.edges_doctored_folder
 		self.command_to_shortcut['Doctor Edges'] = 'de'
 
+		self.mask_folder = self.base_folder + 'masks'
+		self.command_to_folder['Mask Finder'] = self.mask_folder
+		self.command_to_shortcut['Mask Finder'] = 'mf'
+
 		# Reverse command_to_shortcut for utility
 		self.shortcut_to_command = dict((v,k) for k,v in self.command_to_shortcut.iteritems())
 
@@ -78,23 +80,24 @@ class Range_Expansions():
 			self.act_on_command(image, command)
 
 	def act_on_command(self, image_path, command):
-		if command == 'Edge Finder':
-			IJ.open(self.tif_folder + image_path)
-			image_plus = IJ.getImage()
-			command_folder = self.command_to_folder[command]
-			# Convert imagepath to ometif
-			IJ.run(command, 'save_path=' + command_folder + image_path)
-		if command == 'Doctor Edges':
-				IJ.open(self.edge_folder + image_path)
-				image_plus = IJ.getImage()
-				command_folder = self.command_to_folder[command]
-				image_path_without_extension = image_path.split('.', 1)[0]
-				ome_path = image_path_without_extension + '.ome.tif'
-				options = 'save_path=' + command_folder + ome_path
-				options += ' overlay_path=' + self.tif_folder + image_path
-				print self.tif_folder + image_path
-				IJ.run(command, options)
+		file_path = '[' + self.tif_folder + image_path + ']'
 
+		IJ.run("Bio-Formats", "open=" + file_path +" autoscale color_mode=Grayscale view=Hyperstack stack_order=XYCZT");
+		
+		if command == 'Edge Finder':
+			command_folder = self.command_to_folder[command]
+			IJ.run(command, 'save_path=' + command_folder + image_path)
+
+		if command == 'Doctor Edges':
+			options = 'save_path=' + command_folder + image_path
+			options += ' overlay_path=' + self.tif_folder + image_path
+			IJ.run(command, options)
+		
+		if command == 'Mask Finder':
+			command_folder = self.command_to_folder[command]
+			options = 'save_path=' + command_folder + image_path
+			IJ.run(command, options)
+		
 		closeAllImages()
 		
 	def create_gui(self):
