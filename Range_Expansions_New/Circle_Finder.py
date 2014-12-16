@@ -19,7 +19,6 @@ image.setStack(stack)
 
 # Have the user select the circle, perhaps multiple times for error analysis purposes
 num_repetitions  = 3
-circle_list = []
 
 binary_list = []
 for i in range(num_repetitions):
@@ -31,18 +30,17 @@ for i in range(num_repetitions):
 	mask_image = IJ.getImage()
 	mask_image.hide()
 	binary_list.append(mask_image)
-	image.hide()
+	IJ.run(image, "Select None", '')
 
 # Combine images into one stack
 IJ.run(image, '8-bit', '');
 
-image_stack = image.getStack()
+image_stack = image.createEmptyStack()
 
-num_channels = len(channel_images)
-for i in range(num_channels):
-	cur_image = channel_images[i]
+for i in range(num_repetitions):
+	cur_image = binary_list[i]
 	cur_ip = cur_image.getProcessor()
-	image_stack.setProcessor(cur_ip, i + 1)
+	image_stack.addSlice(cur_ip)
 	image.setStack(image_stack)
 
 image.show()
