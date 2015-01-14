@@ -10,7 +10,7 @@ IJ.run('Make Composite', '')
 IJ.run('Flatten', '')
 
 # Ask to find annihilations
-IJ.run("Point Tool...", "type=Hybrid color=Orange size=Small label");
+IJ.run("Point Tool...", "type=Hybrid color=Black size=Small label");
 IJ.setTool('point')
 dial = WaitForUserDialog('Please select annihilations.')
 dial.show()
@@ -19,7 +19,7 @@ annih_x_coords = image.getRoi().getXCoordinates()
 annih_y_coords = image.getRoi().getYCoordinates()
 IJ.run("Add Selection...");
 
-IJ.run("Point Tool...", "type=Hybrid color=Pink size=Small label");
+IJ.run("Point Tool...", "type=Hybrid color=White size=Small label");
 IJ.setTool('point')
 dial = WaitForUserDialog('Please select coalescences.')
 dial.show()
