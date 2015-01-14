@@ -47,6 +47,10 @@ class Range_Expansions():
 		self.command_to_folder['Mask Finder'] = self.mask_folder
 		self.command_to_shortcut['Mask Finder'] = 'mf'
 
+		self.annihilation_folder = self.base_folder + 'annihilation_and_coalescence/'
+		self.command_to_folder['Annihilation Finder'] = self.annihilation_folder
+		self.command_to_shortcut['Annihilation Finder'] = 'af'
+		
 		# Reverse command_to_shortcut for utility
 		self.shortcut_to_command = dict((v,k) for k,v in self.command_to_shortcut.iteritems())
 
@@ -101,6 +105,13 @@ class Range_Expansions():
 		if command == 'Circle Finder':
 			command_folder = self.command_to_folder[command]
 			options = 'save_path=' + command_folder + image_path
+			IJ.run(command, options)
+
+		if command == 'Annihilation Finder':
+			command_folder = self.command_to_folder[command]
+			text_file_path =  image_path.split('.')[0] + '.txt'
+			options = 'save_path=' + command_folder + image_path
+			options += ' text_file_path=' + text_file_path
 			IJ.run(command, options)
 
 		current_image = IJ.getImage()
