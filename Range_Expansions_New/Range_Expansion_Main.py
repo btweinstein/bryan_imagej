@@ -109,8 +109,8 @@ class Range_Expansions():
 
 		if command == 'Annihilation Finder':
 			command_folder = self.command_to_folder[command]
-			text_file_path =  image_path.split('.')[0] + '.txt'
 			options = 'save_path=' + command_folder + image_path
+			text_file_path =  command_folder + image_path.split('.')[0]			
 			options += ' text_file_path=' + text_file_path
 			IJ.run(command, options)
 
