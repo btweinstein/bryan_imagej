@@ -9,8 +9,8 @@ image = IJ.getImage()
 IJ.run(image, 'Make Composite', '')
 IJ.run(image, 'Flatten', '')
 
-# Ask to find annihilations
-IJ.run("Point Tool...", "type=Hybrid color=Black size=Small label");
+# Ask to find annihilations; don't label number to prevent bias
+IJ.run("Point Tool...", "type=Hybrid color=Black size=Small");
 IJ.setTool('multipoint')
 dial = WaitForUserDialog('Please select annihilations.')
 dial.show()
@@ -19,7 +19,8 @@ annih_x_coords = image.getRoi().getXCoordinates()
 annih_y_coords = image.getRoi().getYCoordinates()
 IJ.run("Add Selection...");
 
-IJ.run("Point Tool...", "type=Hybrid color=White size=Small label");
+# Don't label to prevent bias
+IJ.run("Point Tool...", "type=Hybrid color=White size=Small");
 IJ.setTool('multipoint')
 dial = WaitForUserDialog('Please select coalescences.')
 dial.show()
