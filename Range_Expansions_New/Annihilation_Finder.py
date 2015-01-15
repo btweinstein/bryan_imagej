@@ -6,8 +6,8 @@ import re
 image = IJ.getImage()
 
 # Make the image composite
-IJ.run('Make Composite', '')
-IJ.run('Flatten', '')
+IJ.run(image, 'Make Composite', '')
+IJ.run(image, 'Flatten', '')
 
 # Ask to find annihilations
 IJ.run("Point Tool...", "type=Hybrid color=Black size=Small label");
@@ -27,6 +27,16 @@ dial.show()
 coal_x_coords = image.getRoi().getXCoordinates()
 coal_y_coords = image.getRoi().getYCoordinates()
 IJ.run("Add Selection...");
+
+# Collapse the selection onto the image
+IJ.run(image, 'Flatten', '')
+# This creates a new image, annoyingly
+new_image = IJ.getImage()
+# Set the old image equal to the new image
+image.setImage(new_image)
+image.updateAndDraw()
+
+new_image.close()
 
 
 # Save the image if there is an input, also save the output text file
