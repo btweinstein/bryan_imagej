@@ -50,6 +50,13 @@ class Range_Expansions():
 		self.annihilation_folder = self.base_folder + 'annihilation_and_coalescence/'
 		self.command_to_folder['Annihilation Finder'] = self.annihilation_folder
 		self.command_to_shortcut['Annihilation Finder'] = 'af'
+
+		# Make sure all of the folders are created
+		folders = self.command_to_folder.values()
+		for cur_folder in folders:
+			if not os.path.exists(cur_folder):
+				print 'Making', cur_folder
+				os.makedirs(cur_folder)
 		
 		# Reverse command_to_shortcut for utility
 		self.shortcut_to_command = dict((v,k) for k,v in self.command_to_shortcut.iteritems())
