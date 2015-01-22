@@ -51,6 +51,14 @@ class Range_Expansions():
 		self.command_to_folder['Annihilation Finder'] = self.annihilation_folder
 		self.command_to_shortcut['Annihilation Finder'] = 'af'
 
+		self.homeland_folder = self.base_folder + 'homeland/'
+		self.command_to_folder['Homeland Finder'] = self.homeland_folder
+		self.command_to_shortcut['Homeland Finder'] = 'hf'
+
+		self.edge_thresholded_folder = self.base_folder + 'edge_thresholded/'
+		self.command_to_folder['Edge Thresholder'] = self.edge_thresholded_folder
+		self.command_to_shortcut['Edge Thresholder'] = 'et'
+
 		# Make sure all of the folders are created
 		folders = self.command_to_folder.values()
 		for cur_folder in folders:
@@ -119,6 +127,16 @@ class Range_Expansions():
 			options = 'save_path=' + command_folder + image_path
 			text_file_path =  command_folder + image_path.split('.')[0]			
 			options += ' text_file_path=' + text_file_path
+			IJ.run(command, options)
+
+		if command == 'Homeland Finder':
+			command_folder = self.command_to_folder[command]
+			options = 'save_path=' + command_folder + image_path
+			IJ.run(command, options)
+
+		if command == 'Edge Thresholder':
+			command_folder = self.command_to_folder[command]
+			options = 'save_path=' + command_folder + image_path
 			IJ.run(command, options)
 
 		current_image = IJ.getImage()
