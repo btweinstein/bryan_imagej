@@ -26,10 +26,7 @@ dial.show()
 IJ.run(image, 'Create Mask', '')
 IJ.selectWindow('Mask')
 mask_image = IJ.getImage()
-mask_image.hide()
-IJ.run(image, "Select None", '')
-
-image.show()
+image.close()
 
 # Save the image if there is an input
 options = ij.Macro.getOptions()
@@ -37,4 +34,4 @@ if options is not None:
 	options = options.split('=')
 	if options[0] == 'save_path':
 		save_path = options[1]
-		IJ.run(image, "Bio-Formats Exporter", "save=" + save_path + " compression=Uncompressed")
+		IJ.run(mask_image, "Bio-Formats Exporter", "save=" + save_path + " compression=Uncompressed")

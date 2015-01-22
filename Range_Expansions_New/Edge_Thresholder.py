@@ -13,7 +13,7 @@ stack = image.getStack()
 stack.deleteLastSlice()
 
 # Subtract background
-IJ.run("Subtract Background...", "rolling=400 sliding stack");
+#IJ.run("Subtract Background...", "rolling=400 sliding stack");
 
 # Split the channels
 channel_images = ChannelSplitter.split(image)
