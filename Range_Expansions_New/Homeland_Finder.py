@@ -18,7 +18,6 @@ stack.deleteLastSlice()
 # the homeland...but first make it easy to tell where to do it
 IJ.run('Make Composite', '')
 IJ.run('Flatten', '')
-IJ.run('Find Edges')
 
 image.show()
 dial = WaitForUserDialog('Please fit a circle to where you want to cutoff the homeland.')
