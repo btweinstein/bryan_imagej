@@ -5,9 +5,15 @@ import re
 
 image = IJ.getImage()
 
+# Delete the brightfield channel
+stack = image.getStack()
+stack.deleteLastSlice()
+# Remove the background from each channel
+IJ.run(image, "Subtract Background...", "rolling=400 sliding stack");
 # Make the image composite
 IJ.run(image, 'Make Composite', '')
 IJ.run(image, 'Flatten', '')
+
 
 # Ask to find annihilations; don't label number to prevent bias
 IJ.run("Point Tool...", "type=Hybrid color=Black size=Small");
