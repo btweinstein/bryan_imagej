@@ -21,8 +21,8 @@ IJ.setTool('multipoint')
 dial = WaitForUserDialog('Please select annihilations.')
 dial.show()
 
-annih_x_coords = image.getRoi().getXCoordinates()
-annih_y_coords = image.getRoi().getYCoordinates()
+annih_x_coords = image.getRoi().getPolygon().xpoints
+annih_y_coords = image.getRoi().getPolygon().ypoints
 IJ.run("Add Selection...");
 
 # Don't label to prevent bias
@@ -31,8 +31,8 @@ IJ.setTool('multipoint')
 dial = WaitForUserDialog('Please select coalescences.')
 dial.show()
 
-coal_x_coords = image.getRoi().getXCoordinates()
-coal_y_coords = image.getRoi().getYCoordinates()
+coal_x_coords = image.getRoi().getPolygon().xpoints
+coal_y_coords = image.getRoi().getPolygon().ypoints
 IJ.run("Add Selection...");
 
 # Collapse the selection onto the image
