@@ -5,15 +5,18 @@ from ij import IJ
 from ij.gui import WaitForUserDialog
 import re
 import csv
+import os
 
 # Choose file
 file_chooser = OpenDialog('Choose input file')
-image_path = file_chooser.getPath()
-file_name = file_chooser.getFileName()
+image_name = file_chooser.getFileName()
 directory_name = file_chooser.getDirectory()
+annih_image_path = file_chooser.getPath()
+# The parent folder doesn't work correctly if we don't get rid of / at the end
+image_path = os.path.dirname(directory_name[:-1]) + '/tif/' + image_name
 
 # Determine annihilation & coalescence folder names
-base_name = file_name.split('.')[0]
+base_name = image_name.split('.')[0]
 annih_name = base_name + '_annih.txt'
 coal_name = base_name + '_coal.txt'
 
@@ -22,7 +25,7 @@ coal_path = directory_name + coal_name
 
 # Read in annihilations and coalescences
 
-f = open(annih_path)
+f = open(annih_path, 'rb')
 annih_reader = csv.reader(f, delimiter='\t')
 annih_x = []
 annih_y = []
@@ -34,7 +37,7 @@ for row in annih_reader:
 	count += 1
 f.close()
 
-f = open(coal_path)
+f = open(coal_path, 'rb')
 coal_reader = csv.reader(f, delimiter='\t')
 coal_x = []
 coal_y = []
@@ -67,3 +70,54 @@ IJ.run(image, 'Flatten', '')
 IJ.run("Point Tool...", "type=Hybrid color=Black size=Small");
 points = ij.gui.PointRoi(annih_x, annih_y, len(annih_x))
 image.setRoi(points, True)
+
+IJ.setTool('multipoint')
+dial = WaitForUserDialog('Please select annihilations.')
+dial.show()
+
+annih_x_coords_new = image.getRoi().getPolygon().xpoints
+annih_y_coords_new = image.getRoi().getPolygon().ypoints
+IJ.run("Add Selection...");
+
+# Don't label to prevent bias
+IJ.run("Point Tool...", "type=Hybrid color=White size=Small");
+points = ij.gui.PointRoi(coal_x, coal_y, len(coal_x))
+image.setRoi(points, True)
+
+IJ.setTool('multipoint')
+dial = WaitForUserDialog('Please select coalescences.')
+dial.show()
+
+coal_x_coords_new = image.getRoi().getPolygon().xpoints
+coal_y_coords_new = image.getRoi().getPolygon().ypoints
+IJ.run("Add Selection...");
+
+# Collapse the selection onto the image
+IJ.run(image, 'Flatten', '')
+# This creates a new image, annoyingly
+new_image = IJ.getImage()
+# Set the old image equal to the new image
+image.setImage(new_image)
+image.updateAndDraw()
+
+new_image.close()
+
+# Since we are redoing, automatically save the image in the correct location
+# as well as the output txt files.
+
+IJ.run(image, "Bio-Formats Exporter", "save=" + annih_image_path + " compression=Uncompressed")
+
+print 'Saving text data...'
+
+# Save annihilations
+
+f= open(annih_path, 'wb') 
+f.write('r\tc\n')
+for x, y in zip(annih_x_coords_new, annih_y_coords_new):
+	f.write(str(x)+'\t'+str(y)+'\n')
+f.close()
+f= open(coal_path, 'wb')
+f.write('r\tc\n')
+for x, y in zip(coal_x_coords_new, coal_y_coords_new):
+	f.write(str(x)+'\t'+str(y)+'\n')
+f.close()
