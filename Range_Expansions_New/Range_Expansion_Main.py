@@ -31,17 +31,17 @@ class Range_Expansions():
 		self.command_to_folder = {}
 		self.command_to_shortcut = {}
 		
-		self.edge_folder = self.base_folder + 'edges/'
-		self.command_to_folder['Edge Finder'] = self.edge_folder
-		self.command_to_shortcut['Edge Finder'] = 'fe'
+		#self.edge_folder = self.base_folder + 'edges/'
+		#self.command_to_folder['Edge Finder'] = self.edge_folder
+		#self.command_to_shortcut['Edge Finder'] = 'fe'
 		
 		self.circle_radius_folder = self.base_folder + 'circle_radius/'
 		self.command_to_folder['Circle Finder'] = self.circle_radius_folder
 		self.command_to_shortcut['Circle Finder'] = 'fc'
 
-		self.edges_doctored_folder = self.base_folder + 'edges_doctored/'
-		self.command_to_folder['Doctor Edges'] = self.edges_doctored_folder
-		self.command_to_shortcut['Doctor Edges'] = 'de'
+		#self.edges_doctored_folder = self.base_folder + 'edges_doctored/'
+		#self.command_to_folder['Doctor Edges'] = self.edges_doctored_folder
+		#self.command_to_shortcut['Doctor Edges'] = 'de'
 
 		self.mask_folder = self.base_folder + 'masks/'
 		self.command_to_folder['Mask Finder'] = self.mask_folder
@@ -55,9 +55,9 @@ class Range_Expansions():
 		self.command_to_folder['Homeland Finder'] = self.homeland_folder
 		self.command_to_shortcut['Homeland Finder'] = 'hf'
 
-		self.edge_thresholded_folder = self.base_folder + 'edge_thresholded/'
-		self.command_to_folder['Edge Thresholder'] = self.edge_thresholded_folder
-		self.command_to_shortcut['Edge Thresholder'] = 'et'
+		#self.edge_thresholded_folder = self.base_folder + 'edge_thresholded/'
+		#self.command_to_folder['Edge Thresholder'] = self.edge_thresholded_folder
+		#self.command_to_shortcut['Edge Thresholder'] = 'et'
 
 		# Make sure all of the folders are created
 		folders = self.command_to_folder.values()
