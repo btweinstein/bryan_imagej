@@ -16,11 +16,9 @@ stack.deleteLastSlice()
 channel_images = ChannelSplitter.split(image)
 image.hide()
 
-# Cycle through each image, apply CLAHE
+# Cycle through each image, threshold
 for current_image in channel_images:
 	current_image.show()
-	# Fill in the area that is allowed
-	#IJ.run(current_image, "Enhance Local Contrast (CLAHE)", "blocksize=100 histogram=256 maximum=2 mask=*None*");
 	IJ.run(current_image, 'Threshold...', 'Default Dark')
 	dial = WaitForUserDialog('Threshold please')
 	dial.show()
