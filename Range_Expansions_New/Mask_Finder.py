@@ -19,6 +19,7 @@ image.hide()
 # Cycle through each image, threshold
 for current_image in channel_images:
 	current_image.show()
+	IJ.run(current_image, "Subtract Background...", "rolling=800 sliding stack");
 	IJ.run(current_image, 'Threshold...', 'Default Dark')
 	dial = WaitForUserDialog('Threshold please')
 	dial.show()
