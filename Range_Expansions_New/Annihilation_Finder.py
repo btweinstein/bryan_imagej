@@ -61,12 +61,12 @@ if options is not None:
 			print text_file_path
 			# Save the data
 			f= open(text_file_path +'_annih.txt', 'wb') 
-			f.write('r\tc\n')
+			f.write('c\tr\n')
 			for x, y in zip(annih_x_coords, annih_y_coords):
 				f.write(str(x)+'\t'+str(y)+'\n')
 			f.close()
 			f= open(text_file_path +'_coal.txt', 'wb')
-			f.write('r\tc\n')
+			f.write('c\tr\n')
 			for x, y in zip(coal_x_coords, coal_y_coords):
 				f.write(str(x)+'\t'+str(y)+'\n')
 			f.close()
