@@ -19,13 +19,33 @@ stack.deleteLastSlice()
 IJ.run('Make Composite', '')
 IJ.run('Flatten', '')
 
+# Have the user select the circle, perhaps multiple times for error analysis purposes
+num_repetitions  = 3
+
+binary_list = []
+for i in range(num_repetitions):
+	image.show()
+	dial = WaitForUserDialog('Please fit a circle to the homeland.')
+	dial.show()
+	IJ.run(image, 'Create Mask', '')
+	IJ.selectWindow('Mask')
+	mask_image = IJ.getImage()
+	mask_image.hide()
+	binary_list.append(mask_image)
+	IJ.run(image, "Select None", '')
+
+# Combine images into one stack
+IJ.run(image, '8-bit', '');
+
+image_stack = image.createEmptyStack()
+
+for i in range(num_repetitions):
+	cur_image = binary_list[i]
+	cur_ip = cur_image.getProcessor()
+	image_stack.addSlice(cur_ip)
+	image.setStack(image_stack)
+
 image.show()
-dial = WaitForUserDialog('Please fit a circle to where you want to cutoff the homeland.')
-dial.show()
-IJ.run(image, 'Create Mask', '')
-IJ.selectWindow('Mask')
-mask_image = IJ.getImage()
-image.close()
 
 # Save the image if there is an input
 options = ij.Macro.getOptions()
@@ -33,4 +53,4 @@ if options is not None:
 	options = options.split('=')
 	if options[0] == 'save_path':
 		save_path = options[1]
-		IJ.run(mask_image, "Bio-Formats Exporter", "save=" + save_path + " compression=Uncompressed")
+		IJ.run(image, "Bio-Formats Exporter", "save=" + save_path + " compression=Uncompressed")
