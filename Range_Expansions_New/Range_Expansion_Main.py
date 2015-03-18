@@ -36,8 +36,8 @@ class Range_Expansions():
 		#self.command_to_shortcut['Edge Finder'] = 'fe'
 		
 		self.circle_radius_folder = self.base_folder + 'circle_radius/'
-		self.command_to_folder['Circle Finder'] = self.circle_radius_folder
-		self.command_to_shortcut['Circle Finder'] = 'fc'
+		self.command_to_folder['Center Finder'] = self.circle_radius_folder
+		self.command_to_shortcut['Center Finder'] = 'cf'
 
 		#self.edges_doctored_folder = self.base_folder + 'edges_doctored/'
 		#self.command_to_folder['Doctor Edges'] = self.edges_doctored_folder
@@ -51,9 +51,9 @@ class Range_Expansions():
 		self.command_to_folder['Annihilation Finder'] = self.annihilation_folder
 		self.command_to_shortcut['Annihilation Finder'] = 'af'
 
-		self.homeland_folder = self.base_folder + 'homeland/'
-		self.command_to_folder['Homeland Finder'] = self.homeland_folder
-		self.command_to_shortcut['Homeland Finder'] = 'hf'
+		#self.homeland_folder = self.base_folder + 'homeland/'
+		#self.command_to_folder['Homeland Finder'] = self.homeland_folder
+		#self.command_to_shortcut['Homeland Finder'] = 'hf'
 
 		#self.edge_thresholded_folder = self.base_folder + 'edge_thresholded/'
 		#self.command_to_folder['Edge Thresholder'] = self.edge_thresholded_folder
@@ -118,6 +118,11 @@ class Range_Expansions():
 			IJ.run(command, options)
 
 		if command == 'Circle Finder':
+			command_folder = self.command_to_folder[command]
+			options = 'save_path=' + command_folder + image_path
+			IJ.run(command, options)
+
+		if command == 'Center Finder':
 			command_folder = self.command_to_folder[command]
 			options = 'save_path=' + command_folder + image_path
 			IJ.run(command, options)
