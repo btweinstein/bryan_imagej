@@ -18,6 +18,9 @@ input_file_path = IJ.getFilePath('Choose an input file.')
 filename_without_extension = os.path.basename(input_file_path).split('.')[0]
 output_dir_path = IJ.getDirectory('Choose output directory.')
 
+# Point to the tile configuration
+tile_config_path = IJ.getFilePath('Choose the tile configuration.')
+
 IJ.run("Bio-Formats Importer", "open="+ input_file_path +" autoscale color_mode=Grayscale open_all_series view=Hyperstack stack_order=XYCZT");
 # Grab the window with Tile# in it, save it in a temp folder
 temp_folder = tempfile.gettempdir() + '/stitching/'
@@ -26,6 +29,8 @@ temp_folder = tempfile.gettempdir() + '/stitching/'
 if os.path.isdir(temp_folder):
 	shutil.rmtree(temp_folder)
 os.makedirs(temp_folder)
+# Copy in the tile configuration
+shutil.copyfile(tile_config_path, temp_folder + 'TileConfiguration.txt')
 
 num_images = num_dims**2
 for i in range(num_images):
@@ -37,7 +42,8 @@ for i in range(num_images):
 # Stitch the images in the temporary folder
 
 # We have to specify these seperately for some reason
-IJ.run("Grid/Collection stitching", "type=[Grid: snake by rows] order=[Right & Down                ] grid_size_x=2 grid_size_y=2 tile_overlap=20 first_file_index_i=1 directory=/tmp/stitching file_names={i}.ome.tif output_textfile_name=TileConfiguration.txt fusion_method=[Linear Blending] regression_threshold=0.1 max/avg_displacement_threshold=2.5 absolute_displacement_threshold=3.5 compute_overlap subpixel_accuracy computation_parameters=[Save computation time (but use more RAM)] image_output=[Fuse and display]");
+IJ.run("Grid/Collection stitching", "type=[Positions from file] order=[Defined by TileConfiguration] directory=/tmp/stitching/ layout_file=TileConfiguration.txt fusion_method=[Linear Blending] regression_threshold=0.60 max/avg_displacement_threshold=2.50 absolute_displacement_threshold=3.50 compute_overlap subpixel_accuracy computation_parameters=[Save memory (but be slower)] image_output=[Fuse and display]");
+
 
 # Save and get metadata
 fused_image = IJ.getImage()
