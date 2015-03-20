@@ -46,7 +46,7 @@ fused_image = IJ.getImage()
 # Set the scale globally based on the original image
 cur_image.setGlobalCalibration(cur_image.getCalibration())
 
-cur_image.setImage(fused_image)
+cur_image.setImage(fused_image) # Since we set the global scale, everything works ok
 fused_image.close()
 cur_image.setTitle(filename_without_extension)
 
