@@ -9,7 +9,6 @@ import ij.Macro
 import plugin.Stitching_Grid as Stiching_Grid
 import shutil
 import tempfile
-import ij.io
 
 num_dims = 2
 # Assumes snake from top-right downwards, 20% overlap
@@ -38,13 +37,13 @@ for i in range(num_images):
 # Stitch the images in the temporary folder
 
 # We have to specify these seperately for some reason
-IJ.run("Grid/Collection stitching", "type=[Grid: snake by rows] order=[Right & Down                ] grid_size_x=2 grid_size_y=2 tile_overlap=20 first_file_index_i=1 directory=/tmp/stitching file_names={i}.ome.tif output_textfile_name=TileConfiguration.txt fusion_method=[Linear Blending] regression_threshold=0.30 max/avg_displacement_threshold=2.50 absolute_displacement_threshold=3.50 compute_overlap subpixel_accuracy computation_parameters=[Save computation time (but use more RAM)] image_output=[Fuse and display]");
+IJ.run("Grid/Collection stitching", "type=[Grid: snake by rows] order=[Right & Down                ] grid_size_x=2 grid_size_y=2 tile_overlap=20 first_file_index_i=1 directory=/tmp/stitching file_names={i}.ome.tif output_textfile_name=TileConfiguration.txt fusion_method=[Linear Blending] regression_threshold=0.1 max/avg_displacement_threshold=2.5 absolute_displacement_threshold=3.5 compute_overlap subpixel_accuracy computation_parameters=[Save computation time (but use more RAM)] image_output=[Fuse and display]");
 
 # Save and get metadata
 fused_image = IJ.getImage()
 
 # Set the scale globally based on the original image
-cur_image.setGlobalCalibration(cur_image.getCalibration())
+fused_image.setCalibration(cur_image.getCalibration())
 
 cur_image.setImage(fused_image) # Since we set the global scale, everything works ok
 fused_image.close()
