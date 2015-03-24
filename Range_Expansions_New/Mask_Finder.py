@@ -9,6 +9,9 @@ import ij.Macro
 # Delete the last slice; assume it is always brightfield
 image = IJ.getImage()
 
+# Run a fft on the image to reduce background...assumes we are working with the stiched images
+IJ.run(image, "Bandpass Filter...", "filter_large=800 filter_small=0 suppress=None tolerance=5 autoscale saturate process");
+
 stack = image.getStack()
 stack.deleteLastSlice()
 
@@ -19,9 +22,8 @@ image.hide()
 # Cycle through each image, threshold
 for current_image in channel_images:
 	current_image.show()
-	IJ.run(current_image, "Subtract Background...", "rolling=800 sliding stack");
 	IJ.run(current_image, 'Threshold...', 'Default Dark')
-	dial = WaitForUserDialog('Threshold please')
+	dial = WaitForUserDialog('Threshold please. Probably use CLAHE beforehand, \nblocksize=49, histbins=1024, slope=4, select region. ')
 	dial.show()
 	IJ.resetMinAndMax()
 	current_image.hide()
