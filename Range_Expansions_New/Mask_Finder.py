@@ -10,7 +10,7 @@ import ij.Macro
 image = IJ.getImage()
 
 # Run a fft on the image to reduce background...assumes we are working with the stiched images
-IJ.run(image, "Bandpass Filter...", "filter_large=800 filter_small=0 suppress=None tolerance=5 autoscale saturate process");
+IJ.run(image, "Bandpass Filter...", "filter_large=1000 filter_small=0 suppress=None tolerance=5 autoscale saturate process");
 
 stack = image.getStack()
 stack.deleteLastSlice()
