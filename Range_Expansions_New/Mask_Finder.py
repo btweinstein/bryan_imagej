@@ -23,7 +23,7 @@ image.hide()
 for current_image in channel_images:
 	current_image.show()
 	IJ.run(current_image, 'Threshold...', 'Default Dark')
-	dial = WaitForUserDialog('Threshold please. Probably use CLAHE beforehand, \nblocksize=49, histbins=1024, slope=4, select region. ')
+	dial = WaitForUserDialog('Threshold please. Probably use CLAHE beforehand, \nblocksize=49, histbins=1024, slope=10, select region. ')
 	dial.show()
 	IJ.resetMinAndMax()
 	current_image.hide()
