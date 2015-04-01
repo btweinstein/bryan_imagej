@@ -10,7 +10,7 @@ import ij.Macro
 image = IJ.getImage()
 
 # Run a fft on the image to reduce background...assumes we are working with the stiched images
-IJ.run(image, "Bandpass Filter...", "filter_large=1000 filter_small=0 suppress=None tolerance=5 autoscale saturate process");
+#IJ.run(image, "Bandpass Filter...", "filter_large=1000 filter_small=0 suppress=None tolerance=5 autoscale saturate process");
 
 stack = image.getStack()
 stack.deleteLastSlice()
@@ -23,7 +23,7 @@ image.hide()
 for current_image in channel_images:
 	current_image.show()
 	IJ.run(current_image, 'Threshold...', 'Default Dark')
-	dial = WaitForUserDialog('Threshold please. Probably use CLAHE beforehand, \nblocksize=49, histbins=1024, slope=10, select region. ')
+	dial = WaitForUserDialog('Threshold please. Probably use CLAHE beforehand, \nblocksize=25, histbins=2048, slope=20, select region. ')
 	dial.show()
 	IJ.resetMinAndMax()
 	current_image.hide()
