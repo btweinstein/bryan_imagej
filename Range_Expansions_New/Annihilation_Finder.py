@@ -31,9 +31,14 @@ IJ.setTool('multipoint')
 dial = WaitForUserDialog('Please select coalescences.')
 dial.show()
 
-coal_x_coords = image.getRoi().getPolygon().xpoints
-coal_y_coords = image.getRoi().getPolygon().ypoints
-IJ.run("Add Selection...");
+# There might be no coalescences with two colors...so be careful
+
+coal_x_coords = None
+coal_y_coords = None
+if image.getRoi() is not None:
+	coal_x_coords = image.getRoi().getPolygon().xpoints
+	coal_y_coords = image.getRoi().getPolygon().ypoints
+	IJ.run("Add Selection...");
 
 # Collapse the selection onto the image
 IJ.run(image, 'Flatten', '')
@@ -61,12 +66,13 @@ if options is not None:
 			print text_file_path
 			# Save the data
 			f= open(text_file_path +'_annih.txt', 'wb') 
-			f.write('c\tr\n')
+			f.write('c\tr\n') 
 			for x, y in zip(annih_x_coords, annih_y_coords):
 				f.write(str(x)+'\t'+str(y)+'\n')
 			f.close()
 			f= open(text_file_path +'_coal.txt', 'wb')
 			f.write('c\tr\n')
-			for x, y in zip(coal_x_coords, coal_y_coords):
-				f.write(str(x)+'\t'+str(y)+'\n')
+			if (coal_x_coords is not None) and (coal_y_coords is not None):
+				for x, y in zip(coal_x_coords, coal_y_coords):
+					f.write(str(x)+'\t'+str(y)+'\n')
 			f.close()
