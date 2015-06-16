@@ -59,7 +59,7 @@ image = IJ.getImage()
 stack = image.getStack()
 stack.deleteLastSlice()
 # Remove the background from each channel
-IJ.run(image, "Subtract Background...", "rolling=400 sliding stack");
+IJ.run(image, "Subtract Background...", "rolling=800 sliding stack");
 # Make the image composite
 IJ.run(image, 'Make Composite', '')
 IJ.run(image, 'Flatten', '')
@@ -68,8 +68,9 @@ IJ.run(image, 'Flatten', '')
 
 # Ask to find annihilations; don't label number to prevent bias
 IJ.run("Point Tool...", "type=Hybrid color=Black size=Small");
-points = ij.gui.PointRoi(annih_x, annih_y, len(annih_x))
-image.setRoi(points, True)
+if len(annih_x) != 0:
+	points = ij.gui.PointRoi(annih_x, annih_y, len(annih_x))
+	image.setRoi(points, True)
 
 IJ.setTool('multipoint')
 dial = WaitForUserDialog('Please select annihilations.')
@@ -81,8 +82,9 @@ IJ.run("Add Selection...");
 
 # Don't label to prevent bias
 IJ.run("Point Tool...", "type=Hybrid color=White size=Small");
-points = ij.gui.PointRoi(coal_x, coal_y, len(coal_x))
-image.setRoi(points, True)
+if len(coal_x) != 0:
+	points = ij.gui.PointRoi(coal_x, coal_y, len(coal_x))
+	image.setRoi(points, True)
 
 IJ.setTool('multipoint')
 dial = WaitForUserDialog('Please select coalescences.')
@@ -99,12 +101,18 @@ new_image = IJ.getImage()
 # Set the old image equal to the new image
 image.setImage(new_image)
 image.updateAndDraw()
+image.updateAndRepaintWindow()
+image.updateImage()
 
 new_image.close()
+
+image = IJ.getImage()
 
 # Since we are redoing, automatically save the image in the correct location
 # as well as the output txt files.
 
+# Delete the input image...otherwise *bizarre* things happen...
+os.remove(annih_image_path)
 IJ.run(image, "Bio-Formats Exporter", "save=" + annih_image_path + " compression=Uncompressed")
 
 print 'Saving text data...'
