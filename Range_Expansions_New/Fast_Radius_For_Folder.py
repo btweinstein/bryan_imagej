@@ -28,6 +28,13 @@ for image_name in image_list:
 	file_path = tif_folder + image_name
 	IJ.run("Bio-Formats", "open=" + file_path +" autoscale color_mode=Grayscale view=Hyperstack stack_order=XYCZT");
 	cur_image = IJ.getImage()
+	# Always assume brightfield is last
+	stack = cur_image.getStack()
+	num_slices = stack.getSize()
+	for i in range(num_slices -1):
+		stack.deleteSlice(1)
+	cur_image.setStack(stack)
+	
 	IJ.run('Fast Radius Finder')
 	# Save the file
 	output_path = radius_folder + image_name

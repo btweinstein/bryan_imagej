@@ -19,6 +19,8 @@ IJ.run("Fill Holes")
 IJ.run("ParticleRemoverPy ", "enter=3");
 dial = WaitForUserDialog('Clean up if necessary.')
 dial.show()
-IJ.run("Make Binary")
+# If we run this again it often flips black & white, likely because it doesn't know what
+# the background is
+# IJ.run("Make Binary") 
 
 # Done! Now do whatever you have to do.
