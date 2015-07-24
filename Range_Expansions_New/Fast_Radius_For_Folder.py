@@ -27,7 +27,10 @@ if not os.path.exists(radius_folder):
 for image_name in image_list:
 	file_path = tif_folder + image_name
 	IJ.run("Bio-Formats", "open=" + file_path +" autoscale color_mode=Grayscale view=Hyperstack stack_order=XYCZT");
+	cur_image = IJ.getImage()
 	IJ.run('Fast Radius Finder')
 	# Save the file
 	output_path = radius_folder + image_name
-	IJ.run(image, "Bio-Formats Exporter", "save=" + save_path + " compression=Uncompressed")
+	IJ.run("Bio-Formats Exporter", "save=" + output_path + " compression=Uncompressed")
+	cur_image.changes=False
+	cur_image.close()
