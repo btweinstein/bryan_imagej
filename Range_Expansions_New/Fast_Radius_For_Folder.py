@@ -7,18 +7,27 @@ import sys
 import ij
 import ij.Macro
 from ij.process import ImageProcessor
+from ij.io import DirectoryChooser
+import glob
 
-IJ.run("Median...", "radius=10")
-IJ.run("Sample Variance", "block_radius_x=5 block_radius_y=5")
-IJ.run("Auto Threshold", "method=Triangle white")
-dial = WaitForUserDialog('Clean up if necessary.')
-dial.show()
-IJ.run("Make Binary")
-IJ.run("Fill Holes")
+base_folder = DirectoryChooser('Set input directory.').getDirectory()
+tif_folder = base_folder + 'tif/'
+image_list = glob.glob(tif_folder + '*.tif')
+image_list = [os.path.basename(k) for k in image_list]
 
-IJ.run("ParticleRemoverPy ", "enter=3");
-dial = WaitForUserDialog('Clean up if necessary.')
-dial.show()
-IJ.run("Make Binary")
+image_list.sort()
 
-# Done! Now do whatever you have to do.
+radius_folder = base_folder + 'circle_radius/'
+
+if not os.path.exists(radius_folder):
+	print 'Making', radius_folder
+	os.makedirs(radius_folder)
+
+# Loop over files in the radius folder and open & act on them
+for image_name in image_list:
+	file_path = tif_folder + image_name
+	IJ.run("Bio-Formats", "open=" + file_path +" autoscale color_mode=Grayscale view=Hyperstack stack_order=XYCZT");
+	IJ.run('Fast Radius Finder')
+	# Save the file
+	output_path = radius_folder + image_name
+	IJ.run(image, "Bio-Formats Exporter", "save=" + save_path + " compression=Uncompressed")
