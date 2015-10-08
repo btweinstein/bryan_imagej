@@ -8,8 +8,8 @@ image = IJ.getImage()
 # Delete the brightfield channel
 stack = image.getStack()
 stack.deleteLastSlice()
-# Remove the background from each channel
-IJ.run(image, "Subtract Background...", "rolling=800 sliding stack");
+# Remove the background from each channel...nevermind. It obfuscates the real data
+#AIJ.run(image, "Subtract Background...", "rolling=800 sliding stack");
 # Make the image composite
 IJ.run(image, 'Make Composite', '')
 IJ.run(image, 'Flatten', '')
