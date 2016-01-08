@@ -120,12 +120,12 @@ print 'Saving text data...'
 # Save annihilations
 
 f= open(annih_path, 'wb') 
-f.write('r\tc\n')
+f.write('c\tr\n')
 for x, y in zip(annih_x_coords_new, annih_y_coords_new):
 	f.write(str(x)+'\t'+str(y)+'\n')
 f.close()
 f= open(coal_path, 'wb')
-f.write('r\tc\n')
+f.write('c\tr\n')
 for x, y in zip(coal_x_coords_new, coal_y_coords_new):
 	f.write(str(x)+'\t'+str(y)+'\n')
 f.close()
