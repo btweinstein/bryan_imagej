@@ -14,6 +14,7 @@ from ij.measure import Measurements
 # Parameters are tuned for the plate reader downstairs.
 
 image = IJ.getImage()
+image_name = image.getTitle()
 
 # Create a duplicate image to compare with
 duplicate_image = image.duplicate()
@@ -31,7 +32,7 @@ dial.show()
 # Select all the particles, deal with ROI's
 
 IJ.run("Make Binary");
-IJ.run("ParticleRemoverPy ", "enter=.1");\
+IJ.run("ParticleRemoverPy ", "enter=.025");\
 IJ.run("Make Binary");
 IJ.run("Fill Holes");
 IJ.run("Options...", "iterations=4 count=4 black pad do=Close");
@@ -48,4 +49,6 @@ duplicate_image.close()
 dial = WaitForUserDialog('Use eyedropper to fill same domain with same color.')
 dial.show()
 
-# Save the image in the appropriate location
+connected_image = IJ.getImage()
+connected_image.setTitle(image_name)
+IJ.run("8-bit");
